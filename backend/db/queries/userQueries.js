@@ -1,7 +1,5 @@
 const prisma = require("../connection");
 const bcrypt = require("bcryptjs");
-
-// Create a user
 const createUserInDB = async (userData) => {
   const data = { ...userData };
 
@@ -13,8 +11,6 @@ const createUserInDB = async (userData) => {
     data
   });
 };
-
-// Verify email + password, return user (without password) or null
 const verifyUserCredentials = async (email, password) => {
   const user = await prisma.user.findUnique({
     where: { email }
@@ -33,8 +29,6 @@ const verifyUserCredentials = async (email, password) => {
   const { password: _pw, ...safeUser } = user;
   return safeUser;
 };
-
-// Get all users
 const getAllUsers = async () => {
   return await prisma.user.findMany({
     orderBy: {
@@ -42,8 +36,6 @@ const getAllUsers = async () => {
     }
   });
 };
-
-// Get user by ID
 const getUserById = async (id) => {
   return await prisma.user.findUnique({
     where: {
@@ -51,8 +43,6 @@ const getUserById = async (id) => {
     }
   });
 };
-
-// Get user by email
 const getUserByEmail = async (email) => {
   return await prisma.user.findUnique({
     where: {
@@ -60,8 +50,6 @@ const getUserByEmail = async (email) => {
     }
   });
 };
-
-// Update user
 const updateUserInDB = async (id, userData) => {
   const data = { ...userData };
 
@@ -78,8 +66,6 @@ const updateUserInDB = async (id, userData) => {
     data
   });
 };
-
-// Delete user
 const deleteUser = async (id) => {
   return await prisma.user.delete({
     where: {

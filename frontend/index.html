@@ -9,9 +9,7 @@
 
 <style>
 
-/* =====================================================
-   GLOBAL
-===================================================== */
+
 
 * {
     margin: 0;
@@ -36,9 +34,7 @@ button {
 }
 
 
-/* =====================================================
-   SIDEBAR
-===================================================== */
+
 
 .sidebar {
     position: fixed;
@@ -58,7 +54,7 @@ button {
 }
 
 
-/* LOGO */
+
 
 .logo-area {
     display: flex;
@@ -86,7 +82,7 @@ button {
 }
 
 
-/* MENU */
+
 
 .menu-heading {
     color: #858197;
@@ -139,9 +135,7 @@ button {
 }
 
 
-/* =====================================================
-   MAIN
-===================================================== */
+
 
 .main {
     margin-left: 250px;
@@ -150,9 +144,7 @@ button {
 }
 
 
-/* =====================================================
-   TOPBAR
-===================================================== */
+
 
 .topbar {
     height: 72px;
@@ -191,7 +183,7 @@ button {
 }
 
 
-/* NOTIFICATION */
+
 
 .notification {
     width: 40px;
@@ -231,7 +223,7 @@ button {
 }
 
 
-/* USER */
+
 
 .user-mini {
     display: flex;
@@ -262,9 +254,7 @@ button {
 }
 
 
-/* =====================================================
-   CONTENT
-===================================================== */
+
 
 .content {
     padding: 32px;
@@ -279,16 +269,12 @@ button {
 }
 
 
-/* =====================================================
-   WELCOME
-===================================================== */
+
 
 .welcome {
     background:
         linear-gradient(
             120deg,
-            #4b20b9,
-            #7845df
         );
 
     color: white;
@@ -313,9 +299,7 @@ button {
 }
 
 
-/* =====================================================
-   STAT CARDS
-===================================================== */
+
 
 .stats {
     display: grid;
@@ -377,9 +361,7 @@ button {
 }
 
 
-/* =====================================================
-   SECTION
-===================================================== */
+
 
 .section {
     margin-bottom: 35px;
@@ -400,9 +382,7 @@ button {
 }
 
 
-/* =====================================================
-   BUTTONS
-===================================================== */
+
 
 .primary-btn {
     border: none;
@@ -451,9 +431,7 @@ button {
 }
 
 
-/* =====================================================
-   EVENT CARDS
-===================================================== */
+
 
 .event-grid {
     display: grid;
@@ -492,8 +470,6 @@ button {
     background:
         linear-gradient(
             135deg,
-            #4f20b8,
-            #8a51ed
         );
 
     display: flex;
@@ -588,9 +564,7 @@ button {
 }
 
 
-/* =====================================================
-   FILTERS
-===================================================== */
+
 
 .filters {
     background: white;
@@ -632,9 +606,7 @@ button {
 }
 
 
-/* =====================================================
-   TABLE
-===================================================== */
+
 
 .table-box {
     background: white;
@@ -694,9 +666,7 @@ th {
 }
 
 
-/* =====================================================
-   PROFILE
-===================================================== */
+
 
 .profile-card {
     background: white;
@@ -795,9 +765,7 @@ th {
 }
 
 
-/* =====================================================
-   FEEDBACK
-===================================================== */
+
 
 .feedback-card {
     background: white;
@@ -848,9 +816,7 @@ th {
 }
 
 
-/* =====================================================
-   CERTIFICATES
-===================================================== */
+
 
 .certificate-grid {
     display: grid;
@@ -895,9 +861,7 @@ th {
 }
 
 
-/* =====================================================
-   MODAL
-===================================================== */
+
 
 .modal {
     position: fixed;
@@ -984,9 +948,7 @@ th {
 }
 
 
-/* =====================================================
-   TOAST
-===================================================== */
+
 
 .toast {
     position: fixed;
@@ -1013,9 +975,7 @@ th {
 }
 
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+
 
 @media(max-width:1000px) {
 
@@ -1110,9 +1070,7 @@ th {
 <script src="assets/api.js"></script>
 
 
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
+
 
 <aside class="sidebar">
 
@@ -1176,9 +1134,7 @@ th {
 </aside>
 
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
+
 
 <main class="main">
 
@@ -1211,9 +1167,7 @@ th {
 <div class="content">
 
 
-<!-- =====================================================
-     DASHBOARD
-===================================================== -->
+
 
 <section class="page active" id="dashboard">
 
@@ -1294,9 +1248,7 @@ th {
 </section>
 
 
-<!-- =====================================================
-     RECOMMENDATIONS
-===================================================== -->
+
 
 <section class="page" id="recommendations">
 
@@ -1308,7 +1260,6 @@ th {
         <button class="primary-btn" onclick="openDomainModal()">Modify Interests</button>
     </div>
 
-    <!-- Interests panel -->
     <div style="background:white;border:1px solid #e5e4ea;border-radius:12px;padding:20px;margin-bottom:18px;">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
             <div>
@@ -1322,7 +1273,6 @@ th {
         <div class="domain-list" id="recommendationDomains" style="margin-top:14px;"></div>
     </div>
 
-    <!-- State: prompt -->
     <div id="recPrompt" style="background:white;border:1px solid #e5e4ea;border-radius:12px;padding:48px;text-align:center;">
         <div style="font-size:40px;margin-bottom:14px;">🎯</div>
         <h3 style="margin-bottom:8px;">Ready to find your best events?</h3>
@@ -1330,14 +1280,12 @@ th {
         <button class="primary-btn" onclick="fetchMLRecommendations()" style="font-size:15px;padding:13px 28px;">✨ Get My Top 20 Recommendations</button>
     </div>
 
-    <!-- State: loading -->
     <div id="recLoading" style="display:none;background:white;border:1px solid #e5e4ea;border-radius:12px;padding:48px;text-align:center;">
         <div style="font-size:36px;margin-bottom:14px;">⏳</div>
         <h3 style="margin-bottom:8px;">ML model is ranking events...</h3>
         <p style="color:#777;">Analysing your interests and scoring all events. This takes a moment.</p>
     </div>
 
-    <!-- State: results -->
     <div id="recResults" style="display:none;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
             <p style="color:#555;font-size:14px;">Showing top <strong id="recResultCount">0</strong> events ranked by the ML model</p>
@@ -1346,7 +1294,6 @@ th {
         <div class="event-grid" id="recommendationGrid"></div>
     </div>
 
-    <!-- State: empty -->
     <div id="recEmpty" style="display:none;background:white;border:1px solid #e5e4ea;border-radius:12px;padding:48px;text-align:center;">
         <div style="font-size:36px;margin-bottom:14px;">😕</div>
         <h3 style="margin-bottom:8px;">No recommendations found</h3>
@@ -1354,7 +1301,6 @@ th {
         <button class="primary-btn" onclick="openDomainModal()">Modify Interests</button>
     </div>
 
-    <!-- State: error -->
     <div id="recError" style="display:none;background:white;border:1px solid #e5e4ea;border-radius:12px;padding:48px;text-align:center;">
         <div style="font-size:36px;margin-bottom:14px;">⚠️</div>
         <h3 style="margin-bottom:8px;">ML service unavailable</h3>
@@ -1366,9 +1312,7 @@ th {
 </section>
 
 
-<!-- =====================================================
-     ALL EVENTS
-===================================================== -->
+
 
 <section class="page" id="events">
 
@@ -1400,9 +1344,7 @@ th {
 </section>
 
 
-<!-- =====================================================
-     REGISTRATIONS
-===================================================== -->
+
 
 <section class="page" id="registrations">
 
@@ -1413,9 +1355,7 @@ th {
 </section>
 
 
-<!-- =====================================================
-     CERTIFICATES
-===================================================== -->
+
 
 <section class="page" id="certificates">
 
@@ -1428,9 +1368,7 @@ th {
 </section>
 
 
-<!-- =====================================================
-     PROFILE
-===================================================== -->
+
 
 <section class="page" id="profile">
 
@@ -1495,9 +1433,7 @@ th {
 </main>
 
 
-<!-- =====================================================
-     DOMAIN MODAL
-===================================================== -->
+
 
 <div class="modal" id="domainModal">
 
@@ -1518,9 +1454,7 @@ th {
 </div>
 
 
-<!-- =====================================================
-     EVENT DETAILS MODAL
-===================================================== -->
+
 
 <div class="modal" id="eventModal">
 
@@ -1552,39 +1486,19 @@ th {
 </div>
 
 
-<!-- =====================================================
-     TOAST
-===================================================== -->
+
 
 <div class="toast" id="toast">Done</div>
 
 
 <script>
 
-/* =====================================================
-   NOTE ON DOMAIN MAPPING
-   -----------------------------------------------------
-   This UI keeps the simple 10-domain model from the
-   original Vectored design (AI / ML, Web Development,
-   etc). The backend user record may not have a field
-   literally called "domains" — it's mapped here onto
-   `user.interests` (falling back to
-   `user.preferredEventType`) since that's the closest
-   generic array field a user profile is likely to expose.
-   If your backend uses a different field name for this,
-   change DOMAIN_FIELD below and the two spots that read
-   /write it (initializeUser + saveDomains).
-===================================================== */
+
 
 const DOMAIN_FIELD = "interests";
 
 
-/* =====================================================
-   EVENT DATA
-   (fallback only — used only if the backend truly cannot
-   be reached or returns no events; `events` is otherwise
-   always populated by loadEvents() from the live API)
-===================================================== */
+
 
 let events = [];
 
@@ -1657,9 +1571,7 @@ async function loadEvents() {
 }
 
 
-/* =====================================================
-   UTILITIES
-===================================================== */
+
 
 function normalizeArray(value) {
     if (Array.isArray(value)) {
@@ -1672,27 +1584,14 @@ function normalizeArray(value) {
 }
 
 
-/* =====================================================
-   USER / SESSION
-   -----------------------------------------------------
-   The logged-in user now always comes from the session +
-   backend (never from a locally-cached "vectoredUser" blob),
-   so a stale or admin-tagged localStorage value can't leak
-   into this page as if it were the current user.
-===================================================== */
+
 
 let user = { name: "Guest", email: "", domains: [] };
 let currentUserId = null;
 let currentEventId = null;
 
 
-/**
- * Resolves the logged-in user from Session + the backend.
- * Returns false (and redirects to login.html) if there is
- * no valid session — this is what makes a fresh reload /
- * new tab start at the login page instead of showing stale
- * or wrong data.
- */
+
 async function initializeUser() {
 
     let sessionUser = null;
@@ -1707,8 +1606,6 @@ async function initializeUser() {
         window.location.href = "login.html";
         return false;
     }
-
-    // Admins should use admin.html, not the student dashboard
     if (sessionUser.role === "ADMIN") {
         window.location.href = "admin.html";
         return false;
@@ -1738,13 +1635,10 @@ async function initializeUser() {
 }
 
 function loadLocalCaches() {
-    // No local caches needed — registration is external via redirect
 }
 
 
-/* =====================================================
-   INITIALIZE
-===================================================== */
+
 
 window.onload = async function() {
 
@@ -1765,13 +1659,11 @@ window.onload = async function() {
 };
 
 
-/* syncRegistrationsFromBackend removed — registration is external */
 
 
 
-/* =====================================================
-   UPDATE USER
-===================================================== */
+
+
 
 function updateUser() {
 
@@ -1796,9 +1688,7 @@ function updateUser() {
 }
 
 
-/* =====================================================
-   PAGE NAVIGATION
-===================================================== */
+
 
 const PAGE_TITLES = {
     dashboard:       "Dashboard",
@@ -1827,9 +1717,7 @@ function navigateTo(pageId) {
 }
 
 
-/* =====================================================
-   DOMAIN SELECTION
-===================================================== */
+
 
 const domains = [
     "AI / ML", "Web Development", "Cybersecurity", "Data Science",
@@ -1899,9 +1787,7 @@ async function saveDomains() {
 }
 
 
-/* =====================================================
-   RENDER DOMAINS
-===================================================== */
+
 
 function renderDomains(id) {
 
@@ -1920,9 +1806,7 @@ function renderDomains(id) {
 }
 
 
-/* =====================================================
-   RECOMMENDATION ENGINE
-===================================================== */
+
 
 function getRecommendationsLocal() {
     return events
@@ -1947,9 +1831,7 @@ async function getRecommendations() {
 }
 
 
-/* =====================================================
-   RECOMMENDATIONS PAGE — STATE HELPERS
-===================================================== */
+
 
 function recShowState(state) {
     ["recPrompt", "recLoading", "recResults", "recEmpty", "recError"].forEach(id => {
@@ -1959,9 +1841,7 @@ function recShowState(state) {
 }
 
 
-/* =====================================================
-   FETCH ML RECOMMENDATIONS (button click)
-===================================================== */
+
 
 async function fetchMLRecommendations() {
     const btn = document.getElementById("getRecommendationsBtn");
@@ -1988,7 +1868,6 @@ async function fetchMLRecommendations() {
         recShowState("recResults");
 
     } catch (error) {
-        // ML failed — show fallback with error banner
         const fallback = getRecommendationsLocal();
         document.getElementById("recErrorMsg").innerText =
             error.message || "Could not reach the recommendation service.";
@@ -2006,13 +1885,9 @@ async function fetchMLRecommendations() {
 }
 
 
-/* =====================================================
-   RENDER RECOMMENDATIONS (called on navigate — just
-   keeps the current state, does NOT auto-fetch)
-===================================================== */
+
 
 function renderRecommendations() {
-    // Only reset to prompt if no results are showing yet
     const resultsVisible = document.getElementById("recResults").style.display !== "none";
     const errorVisible   = document.getElementById("recError").style.display !== "none";
     if (!resultsVisible && !errorVisible) {
@@ -2022,9 +1897,7 @@ function renderRecommendations() {
 }
 
 
-/* =====================================================
-   EVENT CARD
-===================================================== */
+
 
 function createEventCard(event, rank) {
 
@@ -2067,9 +1940,7 @@ function createEventCard(event, rank) {
 }
 
 
-/* =====================================================
-   ALL EVENTS
-===================================================== */
+
 
 function renderAllEvents(list = events) {
 
@@ -2086,15 +1957,11 @@ function renderAllEvents(list = events) {
 }
 
 
-/* =====================================================
-   POPULATE FILTERS
-===================================================== */
+
 
 function populateFilters() {
     const domainFilter = document.getElementById("domainFilter");
     const locationFilter = document.getElementById("locationFilter");
-
-    // Reset to just the default option
     domainFilter.innerHTML = "<option value=''>All Domains</option>";
     locationFilter.innerHTML = "<option value=''>All Locations</option>";
 
@@ -2112,9 +1979,7 @@ function populateFilters() {
 }
 
 
-/* =====================================================
-   FILTER
-===================================================== */
+
 
 function filterEvents() {
 
@@ -2144,9 +2009,7 @@ function filterEvents() {
 }
 
 
-/* =====================================================
-   EVENT DETAILS
-===================================================== */
+
 
 function openEvent(id) {
 
@@ -2183,9 +2046,7 @@ function closeEventModal() {
 }
 
 
-/* =====================================================
-   REGISTRATION
-===================================================== */
+
 
 function registerCurrentEvent() {
     registerEvent(currentEventId);
@@ -2195,13 +2056,9 @@ function registerEvent(id) {
 
     const event = events.find(e => e.id === id);
     if (!event) return;
-
-    // Track the interaction silently
     if (currentUserId) {
         api.saveInteraction(currentUserId, id, "REGISTER").catch(() => {});
     }
-
-    // Redirect to the external registration link
     const url = event.registrationUrl;
     if (url && url.trim()) {
         window.open(url.trim(), "_blank");
@@ -2214,9 +2071,7 @@ function registerEvent(id) {
 }
 
 
-/* =====================================================
-   DASHBOARD
-===================================================== */
+
 
 async function renderDashboard() {
 
@@ -2236,9 +2091,7 @@ async function renderDashboard() {
 }
 
 
-/* =====================================================
-   REGISTRATION TABLE
-===================================================== */
+
 
 function renderRegistrations() {
 
@@ -2253,9 +2106,7 @@ function renderRegistrations() {
 }
 
 
-/* =====================================================
-   FEEDBACK
-===================================================== */
+
 
 function renderFeedback() {
 
@@ -2269,21 +2120,17 @@ function renderFeedback() {
 }
 
 
-/* =====================================================
-   FEEDBACK → RECOMMENDATIONS
-===================================================== */
-
-/* giveFeedback removed — feedback is no longer tracked locally */
 
 
 
-/* Registration is external — no local bookmark/feedback state needed */
 
 
 
-/* =====================================================
-   NOTIFICATION
-===================================================== */
+
+
+
+
+
 
 function showNotifications() {
     alert(
@@ -2296,14 +2143,7 @@ function showNotifications() {
 }
 
 
-/* =====================================================
-   CERTIFICATES
-   -----------------------------------------------------
-   NOTE: this assumes the API exposes
-   api.getUserCertificates(userId). If your api.js uses a
-   different method name, change the call below —
-   everything else (empty state, rendering) will work as-is.
-===================================================== */
+
 
 async function renderCertificates() {
 
@@ -2363,9 +2203,7 @@ function certificate(certId) {
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
+
 
 function logout() {
 
@@ -2383,9 +2221,7 @@ function logout() {
 }
 
 
-/* =====================================================
-   DELETE ACCOUNT
-===================================================== */
+
 
 function deleteAccount() {
 
@@ -2429,9 +2265,7 @@ Do you want to continue?
 }
 
 
-/* =====================================================
-   TOAST
-===================================================== */
+
 
 function showToast(message) {
 
@@ -2448,9 +2282,7 @@ function showToast(message) {
 }
 
 
-/* =====================================================
-   CLOSE MODALS
-===================================================== */
+
 
 window.onclick = function(event) {
 

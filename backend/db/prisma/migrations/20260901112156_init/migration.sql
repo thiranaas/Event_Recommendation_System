@@ -1,4 +1,3 @@
--- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
@@ -15,8 +14,6 @@ CREATE TABLE "User" (
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
-
--- CreateTable
 CREATE TABLE "Event" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
@@ -33,8 +30,6 @@ CREATE TABLE "Event" (
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
 );
-
--- CreateTable
 CREATE TABLE "Interaction" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
@@ -44,8 +39,6 @@ CREATE TABLE "Interaction" (
 
     CONSTRAINT "Interaction_pkey" PRIMARY KEY ("id")
 );
-
--- CreateTable
 CREATE TABLE "SearchHistory" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
@@ -54,24 +47,10 @@ CREATE TABLE "SearchHistory" (
 
     CONSTRAINT "SearchHistory_pkey" PRIMARY KEY ("id")
 );
-
--- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
 CREATE INDEX "Interaction_userId_idx" ON "Interaction"("userId");
-
--- CreateIndex
 CREATE INDEX "Interaction_eventId_idx" ON "Interaction"("eventId");
-
--- CreateIndex
 CREATE INDEX "SearchHistory_userId_idx" ON "SearchHistory"("userId");
-
--- AddForeignKey
 ALTER TABLE "Interaction" ADD CONSTRAINT "Interaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "Interaction" ADD CONSTRAINT "Interaction_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "SearchHistory" ADD CONSTRAINT "SearchHistory_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

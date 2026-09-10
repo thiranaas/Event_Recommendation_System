@@ -24,7 +24,6 @@
       min-height: 100vh;
     }
 
-    /* SIDEBAR */
     .sidebar {
       width: 250px;
       background: linear-gradient(180deg, #101a3a, #172451);
@@ -139,7 +138,6 @@
       word-break: break-word;
     }
 
-    /* MAIN */
     .main {
       margin-left: 250px;
       width: calc(100% - 250px);
@@ -195,7 +193,6 @@
       display: block;
     }
 
-    /* DASHBOARD */
     .welcome {
       background: linear-gradient(135deg, #5b32e5, #7c3aed);
       color: white;
@@ -303,7 +300,6 @@
       font-weight: bold;
     }
 
-    /* FORM */
     .form-card {
       background: white;
       border: 1px solid #e4e7ef;
@@ -430,8 +426,6 @@
       margin-bottom: 5px;
       font-size: 14px;
     }
-
-    #posterPreview {
       max-width: 100%;
       max-height: 260px;
       border-radius: 9px;
@@ -477,7 +471,6 @@
       transform: translateY(-1px);
     }
 
-    /* EVENTS TABLE */
     .toolbar {
       display: flex;
       justify-content: space-between;
@@ -537,7 +530,6 @@
       color: #dc2626;
     }
 
-    /* PROFILE */
     .profile-layout {
       max-width: 750px;
     }
@@ -597,7 +589,6 @@
       color: #dc2626;
     }
 
-    /* MODAL */
     .modal {
       display: none;
       position: fixed;
@@ -631,7 +622,6 @@
       margin-bottom: 20px;
     }
 
-    /* TOAST */
     .toast {
       position: fixed;
       right: 25px;
@@ -652,7 +642,6 @@
       opacity: 1;
     }
 
-    /* MOBILE */
     .menu-btn {
       display: none;
       background: none;
@@ -735,7 +724,6 @@
 
 <div class="app">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
 
     <div class="logo">
@@ -778,7 +766,6 @@
 
   </aside>
 
-  <!-- MAIN -->
   <main class="main">
 
     <header class="topbar">
@@ -798,7 +785,6 @@
 
     <section class="content">
 
-      <!-- DASHBOARD -->
       <div class="page active" id="dashboard">
 
         <div class="welcome">
@@ -862,7 +848,6 @@
       </div>
 
 
-      <!-- POST EVENT -->
       <div class="page" id="post-event">
 
         <div class="section-heading">
@@ -1116,7 +1101,6 @@
       </div>
 
 
-      <!-- MY EVENTS -->
       <div class="page" id="my-events">
 
         <div class="section-heading">
@@ -1150,7 +1134,6 @@
       </div>
 
 
-      <!-- PROFILE -->
       <div class="page" id="profile">
 
         <div class="section-heading">
@@ -1220,7 +1203,7 @@
 </div>
 
 
-<!-- LOGOUT MODAL -->
+
 <div class="modal" id="logoutModal">
   <div class="modal-content">
     <h3>Log Out?</h3>
@@ -1233,7 +1216,7 @@
   </div>
 </div>
 
-<!-- DELETE ACCOUNT MODAL -->
+
 <div class="modal" id="deleteAccountModal">
   <div class="modal-content">
     <h3>Delete Account</h3>
@@ -1251,7 +1234,7 @@
   </div>
 </div>
 
-<!-- DELETE MODAL -->
+
 <div class="modal" id="deleteModal">
   <div class="modal-content">
     <h3>Delete Event?</h3>
@@ -1265,7 +1248,7 @@
 </div>
 
 
-<!-- LOGGED OUT SCREEN -->
+
 <div class="modal" id="loggedOutScreen" style="z-index:300;">
   <div class="modal-content" style="text-align:center;max-width:430px;">
     <div class="large-avatar" style="margin:0 auto 18px;">✓</div>
@@ -1275,15 +1258,12 @@
   </div>
 </div>
 
-<!-- TOAST -->
+
 <div class="toast" id="toast"></div>
 
 
 <script src="assets/api.js"></script>
 <script>
-  /* =========================
-     SESSION GUARD
-  ========================= */
   (function() {
     const s = Session.get();
     if (!s || !s.id || s.role !== "ADMIN") {
@@ -1291,9 +1271,6 @@
     }
   })();
 
-  /* =========================
-     DATA
-  ========================= */
 
   const defaultProfile = {
     name: "Admin",
@@ -1309,9 +1286,6 @@
   let events = [];
   let deleteIndex = null;
 
-  /* =========================
-     BACKEND <-> ADMIN SHAPE MAPPING
-  ========================= */
 
   function toAdminEvent(event) {
     return {
@@ -1374,9 +1348,6 @@
   }
 
 
-  /* =========================
-     PAGE NAVIGATION
-  ========================= */
 
   const navItems = document.querySelectorAll(".nav-item");
   const pages = document.querySelectorAll(".page");
@@ -1428,9 +1399,6 @@
   });
 
 
-  /* =========================
-     PROFILE
-  ========================= */
 
   function getInitials(name) {
     const words = name.trim().split(/\s+/);
@@ -1486,7 +1454,6 @@
 
     try {
       const updated = await api.updateUser(profile.id, { name, email });
-      // updateUser returns a plain user object (no { success, data } wrapper)
       const savedUser = (updated && updated.id) ? updated : { ...profile, name, email };
       Session.save(savedUser);
       profile = { id: savedUser.id, name: savedUser.name, email: savedUser.email };
@@ -1501,9 +1468,6 @@
   });
 
 
-  /* =========================
-     POSTER PREVIEW
-  ========================= */
 
   const posterBox = document.getElementById("posterBox");
   const posterInput = document.getElementById("posterInput");
@@ -1545,9 +1509,6 @@
   });
 
 
-  /* =========================
-     EVENT FORM
-  ========================= */
 
   const eventForm = document.getElementById("eventForm");
 
@@ -1622,9 +1583,6 @@
   });
 
 
-  /* =========================
-     CLEAR FORM
-  ========================= */
 
   document.getElementById("clearForm").addEventListener("click", function() {
     eventForm.reset();
@@ -1637,9 +1595,6 @@
   });
 
 
-  /* =========================
-     EVENT TABLE
-  ========================= */
 
   function renderEventsTable(searchText = "") {
     const tableBody = document.getElementById("eventsTableBody");
@@ -1683,18 +1638,12 @@
   }
 
 
-  /* =========================
-     SEARCH
-  ========================= */
 
   document.getElementById("eventSearch").addEventListener("input", function() {
     renderEventsTable(this.value);
   });
 
 
-  /* =========================
-     VIEW EVENT
-  ========================= */
 
   function viewEvent(index) {
     const event = events[index];
@@ -1721,9 +1670,6 @@
   }
 
 
-  /* =========================
-     DELETE EVENT
-  ========================= */
 
   function openDeleteModal(index) {
     deleteIndex = index;
@@ -1764,9 +1710,6 @@
   });
 
 
-  /* =========================
-     DASHBOARD
-  ========================= */
 
   function updateDashboard() {
     document.getElementById("totalEvents").textContent = events.length;
@@ -1802,9 +1745,6 @@
   }
 
 
-  /* =========================
-     ACCOUNT ACTIONS
-  ========================= */
 
   const logoutModal = document.getElementById("logoutModal");
   const deleteAccountModal = document.getElementById("deleteAccountModal");
@@ -1872,9 +1812,6 @@
     document.getElementById("loggedOutScreen").classList.remove("show");
   }
 
-  /* =========================
-     HELPERS
-  ========================= */
 
   function formatDate(dateString) {
     if (!dateString) {
@@ -1908,18 +1845,12 @@
   }
 
 
-  /* =========================
-     MOBILE MENU
-  ========================= */
 
   document.getElementById("menuBtn").addEventListener("click", function() {
     document.getElementById("sidebar").classList.toggle("open");
   });
 
 
-  /* =========================
-     CLEAR ALL EVENTS
-  ========================= */
 
   document.getElementById("clearEventsBtn").addEventListener("click", async function() {
     if (!confirm("Delete ALL events from the database?\n\nThis removes all events, registrations, feedback and interactions.\nAdmin accounts are NOT affected.")) return;
@@ -1938,9 +1869,6 @@
   });
 
 
-  /* =========================
-     INITIAL LOAD
-  ========================= */
 
   (async function init() {
     updateProfileUI();

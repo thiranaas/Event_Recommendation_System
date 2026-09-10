@@ -11,19 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 MODEL_FILE = BASE_DIR / "event_recommender.pkl"
 
-
-# ============================================================
-# LOAD MODEL ONCE
-# ============================================================
-
 model = EventRecommender.load(MODEL_FILE)
-
-print(f"Model loaded from {MODEL_FILE}")
-
-
-# ============================================================
-# HELPERS
-# ============================================================
 
 def to_list(value):
     """
@@ -72,11 +60,6 @@ def get_value(data, *keys, default=None):
 
     return default
 
-
-# ============================================================
-# PROFILE BASED RECOMMENDATION
-# ============================================================
-
 def get_recommendations_from_profile(
     user_profile,
     events_df,
@@ -98,10 +81,6 @@ def get_recommendations_from_profile(
         raise ValueError(
             "events must be a pandas DataFrame"
         )
-
-    # --------------------------------------------------------
-    # USER DATA
-    # --------------------------------------------------------
 
     skills = to_list(
         get_value(
@@ -140,11 +119,6 @@ def get_recommendations_from_profile(
 
     mode = str(mode).strip()
 
-
-    # --------------------------------------------------------
-    # CREATE USER DATAFRAME
-    # --------------------------------------------------------
-
     user_data = {
         "user_id": "REAL_USER",
 
@@ -161,11 +135,6 @@ def get_recommendations_from_profile(
 
     user_df = pd.DataFrame([user_data])
 
-
-    # --------------------------------------------------------
-    # ENCODE USER
-    # --------------------------------------------------------
-
     user_vector = model.encode_single_user(
         user_data
     )
@@ -180,11 +149,6 @@ def get_recommendations_from_profile(
             1,
             -1
         )
-
-
-    # --------------------------------------------------------
-    # VALIDATE EVENT COLUMNS
-    # --------------------------------------------------------
 
     required_columns = [
         "event_id",
@@ -207,17 +171,7 @@ def get_recommendations_from_profile(
             + ", ".join(missing_columns)
         )
 
-
-    # --------------------------------------------------------
-    # COPY EVENTS
-    # --------------------------------------------------------
-
     events = events_df.copy()
-
-
-    # --------------------------------------------------------
-    # CLEAN EVENT VALUES
-    # --------------------------------------------------------
 
     for column in [
         "skills",
@@ -226,11 +180,6 @@ def get_recommendations_from_profile(
         "mode"
     ]:
         events[column] = events[column].fillna("").astype(str)
-
-
-    # --------------------------------------------------------
-    # ENCODE EVENTS
-    # --------------------------------------------------------
 
     event_vectors = model.encode_events(
         events
@@ -247,39 +196,19 @@ def get_recommendations_from_profile(
             -1
         )
 
-
-    # --------------------------------------------------------
-    # CALCULATE SIMILARITY
-    # --------------------------------------------------------
-
     similarities = cosine_similarity(
         user_vector,
         event_vectors
     )[0]
 
-
-    # --------------------------------------------------------
-    # ADD SCORE
-    # --------------------------------------------------------
-
     events["recommendation_score"] = (
         similarities
     )
-
-
-    # --------------------------------------------------------
-    # SORT
-    # --------------------------------------------------------
 
     events = events.sort_values(
         by="recommendation_score",
         ascending=False
     )
-
-
-    # --------------------------------------------------------
-    # RETURN TOP N
-    # --------------------------------------------------------
 
     return events.head(
         int(top_n)

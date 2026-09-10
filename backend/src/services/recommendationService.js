@@ -4,27 +4,13 @@ const ML_SERVICE_URL =
   process.env.ML_SERVICE_URL ||
   "http://localhost:8000";
 
-
-// ============================================================
-// GET RECOMMENDATIONS
-// ============================================================
-
 const getRecommendations = async (userId) => {
 
   const numericUserId = Number(userId);
 
-  // ----------------------------------------------------------
-  // VALIDATE USER ID
-  // ----------------------------------------------------------
-
   if (!numericUserId || isNaN(numericUserId)) {
     throw new Error("Invalid user ID");
   }
-
-
-  // ----------------------------------------------------------
-  // GET USER + EVENTS FROM DATABASE
-  // ----------------------------------------------------------
 
   const [user, events] = await Promise.all([
 
@@ -55,28 +41,13 @@ const getRecommendations = async (userId) => {
 
   ]);
 
-
-  // ----------------------------------------------------------
-  // USER NOT FOUND
-  // ----------------------------------------------------------
-
   if (!user) {
     throw new Error("User not found");
   }
 
-
-  // ----------------------------------------------------------
-  // NO EVENTS
-  // ----------------------------------------------------------
-
   if (events.length === 0) {
     return [];
   }
-
-
-  // ==========================================================
-  // CONVERT DATABASE EVENTS → ML EVENTS
-  // ==========================================================
 
   const mlEvents = events.map((event) => ({
 
@@ -98,11 +69,6 @@ const getRecommendations = async (userId) => {
 
   }));
 
-
-  // ==========================================================
-  // CONVERT DATABASE USER → ML USER
-  // ==========================================================
-
   const mlUser = {
 
     skills: Array.isArray(user.skills)
@@ -123,34 +89,6 @@ const getRecommendations = async (userId) => {
 
   };
 
-
-  console.log(
-    "\n========== SENDING TO ML =========="
-  );
-
-  console.log(
-    "User:",
-    mlUser
-  );
-
-  console.log(
-    "Events:",
-    mlEvents.length
-  );
-
-  console.log(
-    "ML URL:",
-    ML_SERVICE_URL
-  );
-
-  console.log(
-    "===================================\n"
-  );
-
-
-  // ==========================================================
-  // CALL PYTHON ML SERVICE
-  // ==========================================================
 
   let response;
 
@@ -189,29 +127,9 @@ const getRecommendations = async (userId) => {
     );
   }
 
-
-  // ==========================================================
-  // READ ML RESPONSE
-  // ==========================================================
-
   const responseText =
     await response.text();
 
-
-  console.log(
-    "ML STATUS:",
-    response.status
-  );
-
-  console.log(
-    "ML RESPONSE:",
-    responseText
-  );
-
-
-  // ==========================================================
-  // ML ERROR
-  // ==========================================================
 
   if (!response.ok) {
 
@@ -219,11 +137,6 @@ const getRecommendations = async (userId) => {
       "ML recommendation service failed"
     );
   }
-
-
-  // ==========================================================
-  // PARSE JSON
-  // ==========================================================
 
   let result;
 
@@ -244,11 +157,6 @@ const getRecommendations = async (userId) => {
     );
   }
 
-
-  // ==========================================================
-  // CHECK ML SUCCESS
-  // ==========================================================
-
   if (!result.success) {
 
     throw new Error(
@@ -256,11 +164,6 @@ const getRecommendations = async (userId) => {
       "ML recommendation failed"
     );
   }
-
-
-  // ==========================================================
-  // MAP ML RESULTS BACK TO REAL EVENTS
-  // ==========================================================
 
   const recommendedEvents =
     (result.data || []).map(
@@ -274,9 +177,6 @@ const getRecommendations = async (userId) => {
                 recommendation.event_id
               )
           );
-
-
-        // Safety check
         if (!originalEvent) {
           return null;
         }
@@ -298,11 +198,6 @@ const getRecommendations = async (userId) => {
 
   return recommendedEvents;
 };
-
-
-// ============================================================
-// EXPORT
-// ============================================================
 
 module.exports = {
   getRecommendations

@@ -1,6 +1,4 @@
 const prisma = require("../connection");
-
-// Create an interaction
 const createInteraction = async ({ userId, eventId, type }) => {
   return await prisma.interaction.create({
     data: {
@@ -10,8 +8,6 @@ const createInteraction = async ({ userId, eventId, type }) => {
     }
   });
 };
-
-// Get all interactions of a user
 const getUserInteractions = async (userId) => {
   return await prisma.interaction.findMany({
     where: {
@@ -25,8 +21,6 @@ const getUserInteractions = async (userId) => {
     }
   });
 };
-
-// Get interactions for an event
 const getEventInteractions = async (eventId) => {
   return await prisma.interaction.findMany({
     where: {
@@ -37,8 +31,6 @@ const getEventInteractions = async (eventId) => {
     }
   });
 };
-
-// Get user's interactions of a specific type
 const getUserInteractionsByType = async (userId, type) => {
   return await prisma.interaction.findMany({
     where: {
@@ -50,8 +42,6 @@ const getUserInteractionsByType = async (userId, type) => {
     }
   });
 };
-
-// Delete an interaction
 const deleteInteraction = async (id) => {
   return await prisma.interaction.delete({
     where: {

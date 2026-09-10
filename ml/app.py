@@ -20,10 +20,6 @@ def recommend():
     try:
         data = request.get_json(silent=True)
 
-        print("\n================ ML REQUEST ================")
-        print(data)
-        print("============================================\n")
-
         if data is None:
             return jsonify({
                 "success": False,
@@ -32,12 +28,6 @@ def recommend():
 
         user = data.get("user")
         events = data.get("events")
-
-        print("USER:")
-        print(user)
-
-        print("\nEVENT COUNT:")
-        print(len(events) if isinstance(events, list) else events)
 
         if user is None:
             return jsonify({
@@ -50,9 +40,6 @@ def recommend():
                 "success": False,
                 "error": "events must be a list"
             }), 400
-
-        # No events is a valid situation.
-        # Return an empty recommendation list instead of 400.
         if len(events) == 0:
             return jsonify({
                 "success": True,
@@ -85,18 +72,12 @@ def recommend():
         }), 200
 
     except ValueError as error:
-        print("\nML VALUE ERROR:")
-        print(error)
-
         return jsonify({
             "success": False,
             "error": str(error)
         }), 400
 
     except Exception as error:
-        print("\nML ERROR:")
-        print(error)
-
         return jsonify({
             "success": False,
             "error": str(error)
@@ -107,5 +88,5 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=8000,
-        debug=True
+        debug=False
     )

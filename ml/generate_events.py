@@ -10,8 +10,6 @@ OUTPUT_FILE = "events_100.csv"
 print("Loading model...")
 
 model = joblib.load(MODEL_FILE)
-
-# Get EXACT categories from trained model
 SKILLS = list(model.skill_encoder.classes_)
 INTERESTS = list(model.interest_encoder.classes_)
 EVENT_TYPES = list(model.event_type_encoder.classes_)
@@ -38,8 +36,6 @@ for i in range(1, 101):
         INTERESTS,
         random.randint(2, 4)
     )
-
-    # Make title based on the actual event type
     main_interest = random.choice(interests)
 
     events.append({

@@ -3,20 +3,10 @@ from pathlib import Path
 
 from recommender import EventRecommender
 
-
-# ============================================================
-# FILE PATHS
-# ============================================================
-
 BASE_DIR = Path(__file__).resolve().parent
 
 MODEL_FILE = BASE_DIR / "event_recommender.pkl"
 EVENT_FILE = BASE_DIR / "events_test.csv"
-
-
-# ============================================================
-# LOAD TRAINED MODEL
-# ============================================================
 
 print("Loading trained model...")
 
@@ -25,11 +15,6 @@ model = EventRecommender.load(
 )
 
 print("Model loaded successfully.")
-
-
-# ============================================================
-# LOAD EVENTS
-# ============================================================
 
 print("\nLoading events...")
 
@@ -40,11 +25,6 @@ events = pd.read_csv(
 print(
     f"Loaded {len(events)} events."
 )
-
-
-# ============================================================
-# SELECT USER
-# ============================================================
 
 user_ids = [
     "U001",
@@ -62,10 +42,6 @@ for user_id in user_ids:
     )
 
     print("=" * 70)
-
-    # -----------------------------------------
-    # User profile
-    # -----------------------------------------
 
     user = model.users[
         model.users["user_id"] == user_id
@@ -85,10 +61,6 @@ for user_id in user_ids:
             ]
         ].to_string(index=False)
     )
-
-    # -----------------------------------------
-    # Recommendations
-    # -----------------------------------------
 
     recommendations = model.recommend(
         user_id=user_id,
@@ -110,9 +82,6 @@ for user_id in user_ids:
         ].to_string(index=False)
     )
 '''
-# ============================================================
-# CHECK USER
-# ============================================================
 
 user_exists = (
     model.users["user_id"] == user_id
@@ -134,11 +103,6 @@ if not user_exists:
 
     exit()
 
-
-# ============================================================
-# GENERATE RECOMMENDATIONS
-# ============================================================
-
 print(
     f"\nGenerating recommendations for {user_id}..."
 )
@@ -148,11 +112,6 @@ recommendations = model.recommend(
     events=events,
     top_n=20
 )
-
-
-# ============================================================
-# DISPLAY RESULTS
-# ============================================================
 
 print("\n")
 print("=" * 70)

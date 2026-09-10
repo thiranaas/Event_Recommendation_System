@@ -7,25 +7,13 @@ from sklearn.preprocessing import MultiLabelBinarizer, OneHotEncoder
 from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
 
-
-# ============================================================
-# CONFIGURATION
-# ============================================================
-
 USER_FILE = "college_students_synthetic_dataset.csv"
 
 TOP_N = 20
-
-# Feature weights
 SKILL_WEIGHT = 1.5
 INTEREST_WEIGHT = 1.5
 EVENT_TYPE_WEIGHT = 1.2
 MODE_WEIGHT = 0.8
-
-
-# ============================================================
-# HELPER FUNCTION
-# ============================================================
 
 def split_values(value):
     """
@@ -45,16 +33,9 @@ def split_values(value):
         if item.strip()
     ]
 
-
-# ============================================================
-# RECOMMENDER CLASS
-# ============================================================
-
 class EventRecommender:
 
     def __init__(self):
-
-        # Encoders
         self.skill_encoder = MultiLabelBinarizer()
         self.interest_encoder = MultiLabelBinarizer()
         self.event_type_encoder = MultiLabelBinarizer()
@@ -63,25 +44,12 @@ class EventRecommender:
             sparse_output=False,
             handle_unknown="ignore"
         )
-
-        # K-Means model
         self.kmeans = None
-
-        # Training data
         self.users = None
         self.user_features = None
-
-        # Selected number of clusters
         self.optimal_k = None
 
-
-    # ========================================================
-    # ENCODE USERS
-    # ========================================================
-
     def encode_users(self, users):
-
-        # Convert comma-separated strings to lists
         skills = users["skills"].apply(split_values)
 
         interests = users["interests"].apply(split_values)
@@ -90,41 +58,21 @@ class EventRecommender:
             split_values
         )
 
-        # -------------------------
-        # Skills
-        # -------------------------
-
         skill_matrix = self.skill_encoder.fit_transform(
             skills
         ).astype(float)
-
-        # -------------------------
-        # Interests
-        # -------------------------
 
         interest_matrix = self.interest_encoder.fit_transform(
             interests
         ).astype(float)
 
-        # -------------------------
-        # Preferred Event Type
-        # -------------------------
-
         event_type_matrix = self.event_type_encoder.fit_transform(
             event_types
         ).astype(float)
 
-        # -------------------------
-        # Mode
-        # -------------------------
-
         mode_matrix = self.mode_encoder.fit_transform(
             users[["preferred_mode"]]
         ).astype(float)
-
-        # -------------------------
-        # Apply weights
-        # -------------------------
 
         skill_matrix *= SKILL_WEIGHT
 
@@ -133,10 +81,6 @@ class EventRecommender:
         event_type_matrix *= EVENT_TYPE_WEIGHT
 
         mode_matrix *= MODE_WEIGHT
-
-        # -------------------------
-        # Combine everything
-        # -------------------------
 
         X = np.hstack([
             skill_matrix,
@@ -147,11 +91,6 @@ class EventRecommender:
 
         return X
 
-
-    # ========================================================
-    # TRAIN USER CLUSTERING
-    # ========================================================
-
     def prepare_users(self, users):
 
         required_columns = [
@@ -161,8 +100,6 @@ class EventRecommender:
             "preferred_event_type",
             "preferred_mode"
         ]
-
-        # Check columns
         missing = [
             column
             for column in required_columns
@@ -173,11 +110,7 @@ class EventRecommender:
             raise ValueError(
                 f"Missing columns: {missing}"
             )
-
-        # Copy dataframe
         self.users = users.copy()
-
-        # Encode
         self.user_features = self.encode_users(
             self.users
         )
@@ -186,11 +119,6 @@ class EventRecommender:
             f"User feature matrix shape: "
             f"{self.user_features.shape}"
         )
-
-
-    # ========================================================
-    # ELBOW METHOD
-    # ========================================================
 
     def elbow_method(
         self,
@@ -203,8 +131,6 @@ class EventRecommender:
             raise ValueError(
                 "Prepare users before running elbow method."
             )
-
-        # Don't allow K >= number of users
         max_k = min(
             max_k,
             len(self.users) - 1
@@ -231,18 +157,10 @@ class EventRecommender:
                 model.inertia_
             )
 
-        # -----------------------------------------
-        # Automatically estimate elbow
-        # -----------------------------------------
-
         suggested_k = self._find_elbow(
             list(k_values),
             inertias
         )
-
-        # -----------------------------------------
-        # Plot
-        # -----------------------------------------
 
         if show_plot:
 
@@ -285,11 +203,6 @@ class EventRecommender:
 
         return suggested_k
 
-
-    # ========================================================
-    # FIND ELBOW
-    # ========================================================
-
     def _find_elbow(self, k_values, inertias):
 
         """
@@ -300,8 +213,6 @@ class EventRecommender:
         x = np.array(k_values, dtype=float)
 
         y = np.array(inertias, dtype=float)
-
-        # Normalize
         x_norm = (
             (x - x.min()) /
             (x.max() - x.min())
@@ -311,8 +222,6 @@ class EventRecommender:
             (y - y.min()) /
             (y.max() - y.min())
         )
-
-        # First and last points
         p1 = np.array([
             x_norm[0],
             y_norm[0]
@@ -349,11 +258,6 @@ class EventRecommender:
 
         return k_values[elbow_index]
 
-
-    # ========================================================
-    # TRAIN K-MEANS
-    # ========================================================
-
     def train(self, k=None):
 
         if self.user_features is None:
@@ -361,8 +265,6 @@ class EventRecommender:
             raise ValueError(
                 "Prepare users first."
             )
-
-        # If K is not supplied, use elbow method
         if k is None:
 
             k = self.elbow_method()
@@ -395,11 +297,6 @@ class EventRecommender:
 
         return self.users
 
-
-    # ========================================================
-    # ENCODE A NEW USER
-    # ========================================================
-
     def encode_single_user(self, user):
 
         skills = [
@@ -431,11 +328,6 @@ class EventRecommender:
                 )
             ]
         })
-
-        # -----------------------------------------
-        # Multi-hot encoding
-        # Unknown values are ignored
-        # -----------------------------------------
 
         skill_matrix = self._safe_transform(
             self.skill_encoder,
@@ -485,11 +377,6 @@ class EventRecommender:
 
         return X.astype(float)
 
-
-    # ========================================================
-    # SAFE MULTI-LABEL TRANSFORM
-    # ========================================================
-
     def _safe_transform(
         self,
         encoder,
@@ -520,12 +407,6 @@ class EventRecommender:
         return encoder.transform(
             cleaned_values
         ).astype(float)
-
-
-    # ========================================================
-    # ENCODE EVENTS
-    # ========================================================
-    
     def encode_events(self, events):
 
         required_columns = [
@@ -561,8 +442,6 @@ class EventRecommender:
         event_types = events["event_type"].apply(
             split_values
         )
-
-        # Use EXISTING user encoders
         skill_matrix = self._safe_transform(
             self.skill_encoder,
             skills
@@ -574,11 +453,7 @@ class EventRecommender:
         )
 
         event_type_matrix = self._safe_transform(self.event_type_encoder,event_types)
-
-        # CHANGE 1: Rename mode column
         event_mode = events[["mode"]].rename(columns={"mode": "preferred_mode"})
-
-        # CHANGE 2: Transform renamed column
         mode_matrix = self.mode_encoder.transform(event_mode).astype(float)
 
         skill_matrix *= SKILL_WEIGHT
@@ -588,8 +463,6 @@ class EventRecommender:
         event_type_matrix *= EVENT_TYPE_WEIGHT
 
         mode_matrix *= MODE_WEIGHT
-
-        # Combine
         X_events = np.hstack([
             skill_matrix,
             interest_matrix,
@@ -598,11 +471,6 @@ class EventRecommender:
         ])
 
         return X_events.astype(float)
-
-
-    # ========================================================
-    # RECOMMEND TOP 20 EVENTS
-    # ========================================================
 
     def recommend(
         self,
@@ -621,10 +489,6 @@ class EventRecommender:
 
             return pd.DataFrame()
 
-        # -----------------------------------------
-        # Find user
-        # -----------------------------------------
-
         user_rows = self.users[
             self.users["user_id"] == user_id
         ]
@@ -637,25 +501,13 @@ class EventRecommender:
 
         user_index = user_rows.index[0]
 
-        # -----------------------------------------
-        # Get user's feature vector
-        # -----------------------------------------
-
         user_vector = self.user_features[
             user_index
         ].reshape(1, -1)
 
-        # -----------------------------------------
-        # Find user's cluster
-        # -----------------------------------------
-
         user_cluster = self.kmeans.predict(
             user_vector
         )[0]
-
-        # -----------------------------------------
-        # Get users in same cluster
-        # -----------------------------------------
 
         cluster_mask = (
             self.users["cluster"]
@@ -674,54 +526,30 @@ class EventRecommender:
             ]
         )
 
-        # -----------------------------------------
-        # Create cluster profile
-        # -----------------------------------------
-
         cluster_profile = (
             cluster_features.mean(axis=0)
             .reshape(1, -1)
         )
 
-        # -----------------------------------------
-        # Encode events
-        # -----------------------------------------
-
         event_features = self.encode_events(
             events
         )
-
-        # -----------------------------------------
-        # User → Event similarity
-        # -----------------------------------------
 
         user_similarity = cosine_similarity(
             user_vector,
             event_features
         )[0]
 
-        # -----------------------------------------
-        # Cluster → Event similarity
-        # -----------------------------------------
-
         cluster_similarity = cosine_similarity(
             cluster_profile,
             event_features
         )[0]
-
-        # -----------------------------------------
-        # Final recommendation score
-        # -----------------------------------------
 
         final_score = (
             0.7 * user_similarity
             +
             0.3 * cluster_similarity
         )
-
-        # -----------------------------------------
-        # Create result
-        # -----------------------------------------
 
         recommendations = events.copy()
 
@@ -737,10 +565,6 @@ class EventRecommender:
             "recommendation_score"
         ] = final_score
 
-        # -----------------------------------------
-        # Sort
-        # -----------------------------------------
-
         recommendations = (
             recommendations
             .sort_values(
@@ -753,11 +577,6 @@ class EventRecommender:
 
         return recommendations
 
-
-    # ========================================================
-    # SAVE MODEL
-    # ========================================================
-
     def save(self, filename="event_recommender.pkl"):
 
         joblib.dump(
@@ -768,11 +587,6 @@ class EventRecommender:
         print(
             f"Model saved to {filename}"
         )
-
-
-    # ========================================================
-    # LOAD MODEL
-    # ========================================================
 
     @staticmethod
     def load(

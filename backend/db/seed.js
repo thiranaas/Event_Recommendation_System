@@ -20,9 +20,6 @@ async function main() {
   } else {
     console.log(`Skipping event seed, ${eventCount} events already exist.`);
   }
-
-  // Default admin accounts (matches the old frontend-only prototype logins,
-  // now backed by the real database with hashed passwords).
   const admins = [
     {
       name: "Vectored Admin",

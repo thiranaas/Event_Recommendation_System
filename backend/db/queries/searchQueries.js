@@ -1,6 +1,4 @@
 const prisma = require("../connection");
-
-// Add a search to search history
 const createSearchHistory = async ({ userId, query }) => {
   return await prisma.searchHistory.create({
     data: {
@@ -9,8 +7,6 @@ const createSearchHistory = async ({ userId, query }) => {
     }
   });
 };
-
-// Get all searches made by a user
 const getUserSearchHistory = async (userId) => {
   return await prisma.searchHistory.findMany({
     where: {
@@ -21,8 +17,6 @@ const getUserSearchHistory = async (userId) => {
     }
   });
 };
-
-// Get recent searches of a user
 const getRecentSearches = async (userId, limit = 10) => {
   return await prisma.searchHistory.findMany({
     where: {
@@ -34,8 +28,6 @@ const getRecentSearches = async (userId, limit = 10) => {
     take: Number(limit)
   });
 };
-
-// Delete a user's search history
 const deleteUserSearchHistory = async (userId) => {
   return await prisma.searchHistory.deleteMany({
     where: {

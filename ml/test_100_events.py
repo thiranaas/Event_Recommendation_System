@@ -12,8 +12,6 @@ events = pd.read_csv("events_100.csv")
 print(f"Loaded {len(events)} events.")
 
 print("\nTesting recommendation...")
-
-# Pick an existing user from the training dataset
 user_id = model.users.iloc[0]["user_id"]
 
 print(f"\nTest User ID: {user_id}")

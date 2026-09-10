@@ -1,8 +1,34 @@
 const prisma = require("../connection");
 
-// ================================
-// GET ALL EVENTS
-// ================================
+const parseOptionalNumber = (value, fieldName) => {
+  if (value === undefined || value === null || value === "") {
+    return null;
+  }
+
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    const error = new Error(`${fieldName} must be a valid number`);
+    error.status = 400;
+    throw error;
+  }
+
+  return parsed;
+};
+
+const parseOptionalDate = (value, fieldName) => {
+  if (value === undefined || value === null || value === "") {
+    return null;
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    const error = new Error(`${fieldName} must be a valid date`);
+    error.status = 400;
+    throw error;
+  }
+
+  return parsed;
+};
 
 const getAllEvents = async () => {
   return await prisma.event.findMany({
@@ -12,11 +38,6 @@ const getAllEvents = async () => {
   });
 };
 
-
-// ================================
-// GET EVENT BY ID
-// ================================
-
 const getEventById = async (id) => {
   return await prisma.event.findUnique({
     where: {
@@ -24,11 +45,6 @@ const getEventById = async (id) => {
     }
   });
 };
-
-
-// ================================
-// SEARCH EVENTS
-// ================================
 
 const searchEvents = async (search) => {
   return await prisma.event.findMany({
@@ -66,11 +82,6 @@ const searchEvents = async (search) => {
   });
 };
 
-
-// ================================
-// GET EVENTS BY CATEGORY
-// ================================
-
 const getEventsByCategory = async (category) => {
   return await prisma.event.findMany({
     where: {
@@ -85,16 +96,17 @@ const getEventsByCategory = async (category) => {
   });
 };
 
-
-// ================================
-// CREATE EVENT
-// ================================
-
 const createEvent = async (data) => {
+  if (!data || typeof data.title !== "string" || !data.title.trim()) {
+    const error = new Error("Title is required");
+    error.status = 400;
+    throw error;
+  }
+
   return await prisma.event.create({
     data: {
-      title: data.title,
-      date: data.date ? new Date(data.date) : null,
+      title: data.title.trim(),
+      date: parseOptionalDate(data.date, "date"),
       location: data.location,
       domain: data.domain,
       eventType: data.eventType || "Workshop",
@@ -103,8 +115,8 @@ const createEvent = async (data) => {
       interests: Array.isArray(data.interests) ? data.interests : [],
       startTime: data.startTime,
       endTime: data.endTime,
-      registrationFee: data.registrationFee,
-      cashPrize: data.cashPrize,
+      registrationFee: parseOptionalNumber(data.registrationFee, "registrationFee"),
+      cashPrize: parseOptionalNumber(data.cashPrize, "cashPrize"),
       certificateAvailable: data.certificateAvailable || false,
       posterUrl: data.posterUrl,
       registrationUrl: data.registrationUrl,
@@ -114,17 +126,13 @@ const createEvent = async (data) => {
       organizerName: data.organizerName,
       organizerDepartment: data.organizerDepartment,
       description: data.description,
-      registrationDeadline: data.registrationDeadline
-        ? new Date(data.registrationDeadline)
-        : null
+      registrationDeadline: parseOptionalDate(
+        data.registrationDeadline,
+        "registrationDeadline"
+      )
     }
   });
 };
-
-
-// ================================
-// UPDATE EVENT
-// ================================
 
 const updateEvent = async (id, data) => {
   return await prisma.event.update({
@@ -160,11 +168,6 @@ const updateEvent = async (id, data) => {
   });
 };
 
-
-// ================================
-// DELETE EVENT
-// ================================
-
 const deleteEvent = async (id) => {
   return await prisma.event.delete({
     where: {
@@ -172,11 +175,6 @@ const deleteEvent = async (id) => {
     }
   });
 };
-
-
-// ================================
-// DELETE EXPIRED EVENTS
-// ================================
 
 const deleteExpiredEvents = async () => {
   return await prisma.event.deleteMany({
@@ -187,11 +185,6 @@ const deleteExpiredEvents = async () => {
     }
   });
 };
-
-
-// ================================
-// EXPORT FUNCTIONS
-// ================================
 
 module.exports = {
   getAllEvents,

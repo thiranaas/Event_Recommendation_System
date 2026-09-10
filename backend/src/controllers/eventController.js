@@ -63,9 +63,9 @@ const createEventController = async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
+    res.status(error.status || 500).json({
       success: false,
-      message: "Failed to create event",
+      message: error.status ? error.message : "Failed to create event",
     });
   }
 };

@@ -4,12 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
-
-/// ==================================================
-/// USER
-/// ==================================================
 model User {
   id                 Int      @id @default(autoincrement())
   name               String
@@ -32,10 +27,6 @@ model User {
   registrations Registration[]
   feedbacks     Feedback[]
 }
-
-/// ==================================================
-/// EVENT
-/// ==================================================
 model Event {
   id                   Int       @id @default(autoincrement())
   title                String
@@ -69,10 +60,6 @@ model Event {
   registrations Registration[]
   feedbacks     Feedback[]
 }
-
-/// ==================================================
-/// INTERACTION
-/// ==================================================
 model Interaction {
   id        Int      @id @default(autoincrement())
   userId    Int
@@ -86,10 +73,6 @@ model Interaction {
   @@index([userId])
   @@index([eventId])
 }
-
-/// ==================================================
-/// SEARCH HISTORY
-/// ==================================================
 model SearchHistory {
   id        Int      @id @default(autoincrement())
   userId    Int
@@ -100,10 +83,6 @@ model SearchHistory {
 
   @@index([userId])
 }
-
-/// ==================================================
-/// REGISTRATION
-/// ==================================================
 model Registration {
   id           Int       @id @default(autoincrement())
   userId       Int
@@ -120,10 +99,6 @@ model Registration {
   @@index([userId])
   @@index([eventId])
 }
-
-/// ==================================================
-/// FEEDBACK
-/// ==================================================
 model Feedback {
   id             Int    @id @default(autoincrement())
   registrationId Int    @unique
@@ -138,10 +113,6 @@ model Feedback {
   @@index([userId])
   @@index([eventId])
 }
-
-/// ==================================================
-/// ADMIN
-/// ==================================================
 model Admin {
   id        Int      @id @default(autoincrement())
   email     String   @unique

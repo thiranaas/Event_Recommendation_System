@@ -2,9 +2,7 @@ const API_BASE =
   window.VECTORED_API_BASE || "http://localhost:5000";
 
 
-/* =========================================================
-   COMMON API REQUEST
-========================================================= */
+
 
 async function apiRequest(path, options = {}) {
 
@@ -26,7 +24,6 @@ async function apiRequest(path, options = {}) {
   try {
     body = await response.json();
   } catch (_) {
-    // Response did not contain JSON
   }
 
 
@@ -49,19 +46,16 @@ async function apiRequest(path, options = {}) {
 
   throw error;
 }
+
+return body;
 }
 
 
-/* =========================================================
-   API
-========================================================= */
+
 
 const api = {
 
 
-  /* =========================
-     USERS
-  ========================== */
 
   signup: (userData) =>
     apiRequest(
@@ -112,9 +106,6 @@ const api = {
 
 
 
-  /* =========================
-     EVENTS
-  ========================== */
 
   getEvents: () =>
     apiRequest(
@@ -170,9 +161,6 @@ const api = {
 
 
 
-  /* =========================
-     REGISTRATIONS
-  ========================== */
 
   registerForEvent: (
     userId,
@@ -215,9 +203,6 @@ const api = {
 
 
 
-  /* =========================
-     FEEDBACK
-  ========================== */
 
   submitFeedback: (
     registrationId,
@@ -248,9 +233,6 @@ const api = {
 
 
 
-  /* =========================
-     INTERACTIONS
-  ========================== */
 
   saveInteraction: (
     userId,
@@ -271,9 +253,6 @@ const api = {
 
 
 
-  /* =========================
-     SEARCH HISTORY
-  ========================== */
 
   saveSearch: (
     userId,
@@ -301,9 +280,6 @@ const api = {
 
 
 
-  /* =========================
-     ML RECOMMENDATIONS
-  ========================== */
 
   getRecommendations: (
     userId
@@ -313,10 +289,6 @@ const api = {
     ),
 
 
-  /* =========================
-     CERTIFICATES
-     (registrations with attendance = proxy for certificates)
-  ========================== */
 
   getUserCertificates: (
     userId
@@ -326,9 +298,6 @@ const api = {
     ),
 
 
-  /* =========================
-     ADMIN UTILITIES
-  ========================== */
 
   clearAllEvents: () =>
     apiRequest(
@@ -339,9 +308,7 @@ const api = {
 };
 
 
-/* =========================================================
-   SESSION
-========================================================= */
+
 
 const Session = {
 
